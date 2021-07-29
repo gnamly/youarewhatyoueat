@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.locks.Lock;
 
 public class ProfileDBHelper {
@@ -55,10 +57,46 @@ public class ProfileDBHelper {
 
     public static synchronized Profile getById(long id, Context context) {
         Log.d(LOG_TAG, "Get By ID with id: "+id);
-        //String select = "SELECT * FROM " + TABLE_NAME + " WHERE id = " + id;
-        //Cursor resultSet = DBH.getInstance(context).executeRawRead(select);
         Cursor resultSet = DBH.getInstance(context).getReadableDatabase().query(TABLE_NAME, null, "id = ?", new String[]{Long.toString(id)}, null, null, null, null);
         Log.d(LOG_TAG, "Get By ID with id: "+id+" found "+resultSet.getCount()+" results");
+        if(resultSet.getCount() > 0) {
+            resultSet.moveToFirst();
+            long _id = resultSet.getLong(0);
+            String username = resultSet.getString(1);
+            String nickname = resultSet.getString(2);
+            String birthday = resultSet.getString(3);
+            int height = resultSet.getInt(4);
+            String color = resultSet.getString(5);
+            String icon = resultSet.getString(6);
+            boolean male = resultSet.getInt(7) == 1;
+            return new Profile(context, _id, username, nickname, birthday, height, color, icon, male);
+        }
+        return null;
+    }
+
+    public static synchronized List<SimpleProfile> getAll(Context context) {
+        Cursor resultSet = DBH.getInstance().getReadableDatabase().query(TABLE_NAME, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_NICKNAME}, null, null, null, null, null, null);
+        List<SimpleProfile> result = new ArrayList<>();
+        if(resultSet.getCount() > 0){
+            resultSet.moveToFirst();
+            for(int i = 0;i < resultSet.getCount();i++) {
+                long _id = resultSet.getLong(0);
+                String username = resultSet.getString(1);
+                String nickname = resultSet.getString(2);
+                result.add(new SimpleProfile(context, _id, username, nickname));
+                resultSet.moveToNext();
+            }
+        }
+        return result;
+    }
+
+    public static synchronized boolean deleteProfile(long id) {
+        int result = DBH.getInstance().getWritableDatabase().delete(TABLE_NAME, "id = ?", new String[] {Long.toString(id)});
+        return result > 0;
+    }
+
+    public static synchronized Profile getLast(Context context) {
+        Cursor resultSet = DBH.getInstance(context).getReadableDatabase().query(TABLE_NAME, null, null, null, null, null, COLUMN_ID+" DESC", "1");
         if(resultSet.getCount() > 0) {
             resultSet.moveToFirst();
             long _id = resultSet.getLong(0);

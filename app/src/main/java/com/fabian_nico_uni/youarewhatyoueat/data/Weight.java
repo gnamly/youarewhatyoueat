@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Locale;
 
 public class Weight {
     public static final String LOG_TAG = Weight.class.getSimpleName();
@@ -18,7 +19,7 @@ public class Weight {
     SimpleDateFormat dateFormat;
 
     public Weight(long id, long profile_id, int weight, String timestamp){
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.GERMANY);
 
         this.id = id;
         this.profile_id = profile_id;

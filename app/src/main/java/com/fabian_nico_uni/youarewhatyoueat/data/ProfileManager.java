@@ -62,6 +62,21 @@ public class ProfileManager {
         fireCurrentProfileUpdate();
     }
 
+    public void deleteCurrent() {
+        ProfileDBHelper.deleteProfile(current.id);
+        current = ProfileDBHelper.getLast(ctx);
+        fireCurrentProfileUpdate();
+    }
+
+    public List<SimpleProfile> getAllSimple(){
+        return ProfileDBHelper.getAll(ctx);
+    }
+
+    public void loadProfile(long id) {
+        current = ProfileDBHelper.getById(id, ctx);
+        fireCurrentProfileUpdate();
+    }
+
     private void fireCurrentProfileUpdate(){
         for(CurrentProfileUpdateEvent listener : currentUpdateListeners){
             listener.onProfileUpdated(current);

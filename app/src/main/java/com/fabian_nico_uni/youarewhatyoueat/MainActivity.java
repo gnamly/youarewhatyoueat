@@ -8,14 +8,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 import androidx.annotation.NonNull;
-import com.fabian_nico_uni.youarewhatyoueat.data.CaloriesDBHelper;
-import com.fabian_nico_uni.youarewhatyoueat.data.CurrentProfileUpdateEvent;
-import com.fabian_nico_uni.youarewhatyoueat.data.Profile;
-import com.fabian_nico_uni.youarewhatyoueat.data.ProfileManager;
+import com.fabian_nico_uni.youarewhatyoueat.data.*;
 import com.fabian_nico_uni.youarewhatyoueat.ui.home.AddCalsDialog;
 import com.fabian_nico_uni.youarewhatyoueat.ui.profile.CreateFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +24,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements CurrentProfileUpdateEvent, AddCalsDialog.AddCalsDialogListener {
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -38,9 +36,13 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
     private ProfileManager profileManager;
     public ProfileManager getProfileManager() {return profileManager;};
 
-    private TextView profileHeaderNavView;
     private TextView profileSubheaderNavView;
     private ImageView profileImageNavView;
+
+    private Spinner spinner;
+    ArrayAdapter<SimpleProfile> adapter;
+
+    List<SimpleProfile> profileList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,29 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         NavigationUI.setupWithNavController(navigationView, navController);
 
         View navHeaderView = navigationView.getHeaderView(0);
-        profileHeaderNavView = navHeaderView.findViewById(R.id.nav_profile_header);
         profileSubheaderNavView = navHeaderView.findViewById(R.id.nav_profile_subheader);
         profileImageNavView = navHeaderView.findViewById(R.id.nav_profile_image);
+
+        spinner = navHeaderView.findViewById(R.id.nav_profile_header_spinner);
+        profileList = ProfileManager.getInstance(this).getAllSimple();
+
+        adapter = new ArrayAdapter<SimpleProfile>(this,
+                android.R.layout.simple_spinner_item, profileList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SimpleProfile profile = (SimpleProfile) parent.getSelectedItem();
+                onSelectedProfile(profile);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                //We do nothing
+            }
+        });
 
         profileManager.addCurrentProfileUpdateListener(this);
         onProfileUpdated(profileManager.getCurrent());
@@ -113,8 +135,9 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(getString(R.string.pref_last_profile_key), current.id);
         editor.apply();
-        profileHeaderNavView.setText("@"+current.nickname);
         profileSubheaderNavView.setText(current.name);
+        profileList = ProfileManager.getInstance(this).getAllSimple();
+        setupSpinner();
     }
 
     @Override
@@ -122,5 +145,28 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         Profile current = ProfileManager.getInstance(this).getCurrent();
         CaloriesDBHelper.addCalories(current.id, cal);
         ProfileManager.getInstance(this).refreshCurrent();
+    }
+
+    public void getSelectedProfile(View v) {
+        SimpleProfile profile =  (SimpleProfile) spinner.getSelectedItem();
+        onSelectedProfile(profile);
+    }
+
+    private void setupSpinner() {
+        adapter.notifyDataSetChanged();
+        SimpleProfile currentSimple = profileList.get(0);
+        Profile current = ProfileManager.getInstance(this).getCurrent();
+        for(SimpleProfile profile : profileList){
+            if(profile.id == current.id) currentSimple = profile;
+        }
+
+        spinner.setSelection(adapter.getPosition(currentSimple));
+    }
+
+    private void onSelectedProfile(SimpleProfile profile) {
+        Log.d(LOG_TAG, "onSelectedProfile");
+        Profile current = ProfileManager.getInstance(this).getCurrent();
+        if(current.id != profile.id)
+            ProfileManager.getInstance(this).loadProfile(profile.id);
     }
 }

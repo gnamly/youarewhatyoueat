@@ -12,9 +12,12 @@ import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 public class Profile {
     public static final String LOG_TAG = Profile.class.getSimpleName();
+
+    private Context ctx;
 
     public long id;
     public String name;
@@ -34,7 +37,9 @@ public class Profile {
     SimpleDateFormat dateFormat;
 
     public Profile(Context context, long id, String name, String nick, String birthday, int height, String color, String icon, boolean male){
-        dateFormat = new SimpleDateFormat("dd.MM.yyyy");
+        dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+
+        this.ctx = context;
 
         this.id = id;
         this.name = name;
@@ -63,5 +68,9 @@ public class Profile {
         for(Calories cal : calories){
             caloriesToday += cal.calories;
         }
+    }
+
+    public SimpleProfile getSimple(){
+        return new SimpleProfile(this.ctx, this.id, this.name, this.nickname);
     }
 }
