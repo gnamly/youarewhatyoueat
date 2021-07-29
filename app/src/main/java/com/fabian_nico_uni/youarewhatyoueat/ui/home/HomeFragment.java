@@ -54,12 +54,12 @@ public class HomeFragment extends Fragment implements CurrentProfileUpdateEvent 
         fab.setOnClickListener(onButtonClickListener);
 
         ProfileManager.getInstance(getContext()).addCurrentProfileUpdateListener(this);
-        onProfileUpdated(ProfileManager.getInstance(getContext()).getCurrent());
+        onProfileUpdated(ProfileManager.getInstance(getContext()).getCurrent(), false);
         return root;
     }
 
     @Override
-    public void onProfileUpdated(Profile current) {
+    public void onProfileUpdated(Profile current, boolean newProfile) {
         if(current == null) return;
         nickname.setText("@"+current.nickname);
         cals.setText(current.caloriesToday+" kcal");

@@ -29,7 +29,7 @@ public class ProfileManager {
         //Search for Profile
         Log.d(LOG_TAG, "Searching for last profile with id "+lastProfile);
         current = ProfileDBHelper.getById(lastProfile, context);
-        Log.d(LOG_TAG, "Found lastProfile with "+current);
+        Log.d(LOG_TAG, "Found lastProfile with "+current.nickname);
         fireCurrentProfileUpdate();
     }
 
@@ -53,7 +53,7 @@ public class ProfileManager {
         long id = ProfileDBHelper.createProfile(ctx, name, nick, birth, height, weight);
         if(id == -1) return false;
         current = ProfileDBHelper.getById(id, ctx);
-        fireCurrentProfileUpdate();
+        fireCurrentProfileUpdate(true);
         return true;
     }
 
@@ -77,9 +77,13 @@ public class ProfileManager {
         fireCurrentProfileUpdate();
     }
 
-    private void fireCurrentProfileUpdate(){
+    private void fireCurrentProfileUpdate() {
+        fireCurrentProfileUpdate(false);
+    }
+
+    private void fireCurrentProfileUpdate(boolean newProfile){
         for(CurrentProfileUpdateEvent listener : currentUpdateListeners){
-            listener.onProfileUpdated(current);
+            listener.onProfileUpdated(current, newProfile);
         }
     }
 }

@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         });
 
         profileManager.addCurrentProfileUpdateListener(this);
-        onProfileUpdated(profileManager.getCurrent());
+        onProfileUpdated(profileManager.getCurrent(), false);
     }
 
     @Override
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
     }
 
     @Override
-    public void onProfileUpdated(Profile current) {
+    public void onProfileUpdated(Profile current, boolean newProfile) {
         if(current == null) {
             Log.w(LOG_TAG, "Profile was updated, main activity has received a null object");
             startActivity(new Intent(this, CreateProfileActivity.class));
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         editor.putLong(getString(R.string.pref_last_profile_key), current.id);
         editor.apply();
         profileSubheaderNavView.setText(current.name);
-        profileList = ProfileManager.getInstance(this).getAllSimple();
+        if(newProfile) profileList.add(current.getSimple());
         setupSpinner();
     }
 
@@ -157,9 +157,11 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         SimpleProfile currentSimple = profileList.get(0);
         Profile current = ProfileManager.getInstance(this).getCurrent();
         for(SimpleProfile profile : profileList){
-            if(profile.id == current.id) currentSimple = profile;
+            if(profile.id == current.id){
+                currentSimple = profile;
+            }
         }
-
+        Log.d(LOG_TAG, "setup Spinner with id: "+currentSimple.id+ " position: "+adapter.getPosition(currentSimple));
         spinner.setSelection(adapter.getPosition(currentSimple));
     }
 
