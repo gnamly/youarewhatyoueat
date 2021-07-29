@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mobile_navigation"
+            app:startDestination="@+id/nav_home">
+
+    <fragment
+            android:id="@+id/nav_home"
+            android:name="com.fabian_nico_uni.youarewhatyoueat.ui.home.HomeFragment"
+            android:label="@string/menu_home"
+            tools:layout="@layout/fragment_home"/>
+
+    <fragment
+            android:id="@+id/nav_recipes"
+            android:name="com.fabian_nico_uni.youarewhatyoueat.ui.recipe.RecipeFragment"
+            android:label="@string/menu_recipes"
+            tools:layout="@layout/fragment_recipes"/>
+
+    <fragment
+            android:id="@+id/nav_overview"
+            android:name="com.fabian_nico_uni.youarewhatyoueat.ui.overview.OverviewFragment"
+            android:label="@string/menu_overview"
+            tools:layout="@layout/fragment_overview"/>
+
+    <fragment
+            android:id="@+id/nav_create_profile"
+            android:name="com.fabian_nico_uni.youarewhatyoueat.ui.profile.CreateFragment"
+            android:label="@string/menu_create_profile"
+            tools:layout="@layout/fragment_create_profile"/>
+</navigation>
