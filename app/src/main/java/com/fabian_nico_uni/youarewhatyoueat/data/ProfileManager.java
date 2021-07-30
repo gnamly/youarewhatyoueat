@@ -77,6 +77,11 @@ public class ProfileManager {
         fireCurrentProfileUpdate();
     }
 
+    public void setColor(String color) {
+        ProfileDBHelper.updateField("color", color, current.id);
+        loadProfile(current.id);
+    }
+
     private void fireCurrentProfileUpdate() {
         fireCurrentProfileUpdate(false);
     }

@@ -10,9 +10,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.Toast;
+import com.fabian_nico_uni.youarewhatyoueat.data.ProfileManager;
+import com.fabian_nico_uni.youarewhatyoueat.ui.settings.SelectColorDialog;
 import com.fabian_nico_uni.youarewhatyoueat.ui.settings.SettingsFragment;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SelectColorDialog.SelectColorDialogListener {
     public static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
@@ -37,5 +39,10 @@ public class SettingsActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void applyColor(String color) {
+        ProfileManager.getInstance(this).setColor(color);
     }
 }

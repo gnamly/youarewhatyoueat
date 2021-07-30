@@ -39,8 +39,24 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setMessage("Bist du sicher?").setPositiveButton("Ja", dialogClickListener)
                         .setNegativeButton("Nein", dialogClickListener).show();
+
                 return true;
             }
         });
+
+        Preference colorPref = (Preference) findPreference("select_color");
+        colorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                Log.d(LOG_TAG, "Clicked on Select Color");
+                OpenDialog();
+                return true;
+            }
+        });
+    }
+
+    void OpenDialog() {
+        SelectColorDialog dialog = new SelectColorDialog();
+        dialog.show(getChildFragmentManager(), "select color dialog");
     }
 }

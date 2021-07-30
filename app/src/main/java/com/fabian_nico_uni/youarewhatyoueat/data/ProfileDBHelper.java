@@ -111,4 +111,12 @@ public class ProfileDBHelper {
         }
         return null;
     }
+
+    public static  synchronized boolean updateField(String column, String value, long id) {
+        ContentValues values = new ContentValues();
+        values.put(column, value);
+        int result = DBH.getInstance().getWritableDatabase().update(TABLE_NAME, values, "id = ?", new String[]{Long.toString(id)});
+
+        return result > 0;
+    }
 }

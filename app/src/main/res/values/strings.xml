@@ -17,6 +17,8 @@
     <string name="pref_last_profile_key">YouAreWhatYouEatPreferences_last_profile</string>
 
     <string name="preference_delete_profile">Profil Löschen</string>
+    <string name="preference_select_color">Farbe ändern</string>
+    <string name="preference_select_color_text">Farbe wählen</string>
 
     <string name="home_welcome">Wilkommen</string>
     <string name="home_cals_1">Heute hast du</string>

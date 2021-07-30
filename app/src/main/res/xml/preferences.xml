@@ -3,6 +3,10 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <Preference
+        app:key="select_color"
+        app:title="@string/preference_select_color">
+    </Preference>
+    <Preference
         app:key="delete_profile"
         app:title="@string/preference_delete_profile"/>
 </PreferenceScreen>
