@@ -77,7 +77,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp">
-            <EditText
+            <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Geburtstag"
+                    android:layout_marginStart="8dp"/>
+            <TextView
                     android:id="@+id/create_profile_input_age"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,8 +90,7 @@
                     android:layout_marginTop="8dp"
                     android:layout_marginEnd="8dp"
                     android:textSize="20sp"
-                    android:hint="Geburtstag (dd.mm.yyyy)"
-                    android:inputType="date"
+                    android:hint="(dd.mm.yyyy)"
                     android:maxLines="1"
                     android:imeOptions="actionNext"/>
         </com.google.android.material.textfield.TextInputLayout>

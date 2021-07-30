@@ -1,5 +1,8 @@
 package com.fabian_nico_uni.youarewhatyoueat.ui.profile;
 
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +19,7 @@ import com.fabian_nico_uni.youarewhatyoueat.R;
 import com.fabian_nico_uni.youarewhatyoueat.data.ProfileManager;
 
 import java.lang.reflect.Array;
+import java.util.Calendar;
 
 public class CreateFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     public static final String LOG_TAG = CreateFragment.class.getSimpleName();
@@ -33,7 +37,33 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
         Button button = root.findViewById(R.id.create_profile_form_submit);
         final EditText nameInput = root.findViewById(R.id.create_profile_input_name);
         final EditText nickInput = root.findViewById(R.id.create_profile_input_nick);
-        final EditText ageInput = root.findViewById(R.id.create_profile_input_age);
+        final TextView ageInput = root.findViewById(R.id.create_profile_input_age);
+        DatePickerDialog.OnDateSetListener ageDateListener;
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        ageDateListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month += 1;
+                String date = (dayOfMonth<10 ? "0" : "")+dayOfMonth+"."+(month<10 ? "0" : "")+month+"."+year;
+                ageInput.setText(date);
+            }
+        };
+
+        ageInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        getContext(),
+                        0,
+                        ageDateListener, year, month, day);
+                datePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                datePickerDialog.show();
+            }
+        });
+
         final EditText heightInput = root.findViewById(R.id.create_profile_input_height);
         final EditText weightInput = root.findViewById(R.id.create_profile_input_weight);
         genderSpinner = root.findViewById(R.id.create_profile_input_gender);
