@@ -40,7 +40,7 @@ public class ProfileDBHelper {
 
     private static Lock dblock;
 
-    public static synchronized long createProfile(Context context, String name, String nick, String birth, int height, int weight) {
+    public static synchronized long createProfile(Context context, String name, String nick, String birth, int height, int weight, boolean male) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
         values.put(COLUMN_NICKNAME, nick);
@@ -48,7 +48,7 @@ public class ProfileDBHelper {
         values.put(COLUMN_HEIGHT, height);
         values.put(COLUMN_COLOR, "#f78707");
         values.put(COLUMN_ICON, "ic_launcher_round.png");
-        values.put(COLUMN_MALE, 1);
+        values.put(COLUMN_MALE, male ? 1 : 0);
         long result = DBH.getInstance(context).getWritableDatabase().insert(TABLE_NAME, null, values);
         Log.d(LOG_TAG, "Created Profile with id "+result);
         WeightDBHelper.addWeight(result, weight);

@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_recipes, R.id.nav_overview, R.id.nav_create_profile)
+                R.id.nav_home, /*R.id.nav_recipes,*/ R.id.nav_overview, R.id.nav_create_profile)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -49,8 +49,8 @@ public class ProfileManager {
         currentUpdateListeners.add(listener);
     }
 
-    public boolean createProfile(String name, String nick, String birth, int height, int weight){
-        long id = ProfileDBHelper.createProfile(ctx, name, nick, birth, height, weight);
+    public boolean createProfile(String name, String nick, String birth, int height, int weight, boolean male){
+        long id = ProfileDBHelper.createProfile(ctx, name, nick, birth, height, weight, male);
         if(id == -1) return false;
         current = ProfileDBHelper.getById(id, ctx);
         fireCurrentProfileUpdate(true);
