@@ -26,6 +26,7 @@
     <string name="home_daylie">Dein Tagesbedarf liegt bei</string>
     <string name="home_add">Mahlzeit hinzufügen</string>
     <string name="home_calc_add_value">Kalorien Wert (kcal)</string>
+    <string name="home_drink">Heute getrunken</string>
 
     <string name="overview_chart_weight_header">Gewichts übersicht</string>
     <string name="overview_chart_calories_header">Kalorien übersicht</string>

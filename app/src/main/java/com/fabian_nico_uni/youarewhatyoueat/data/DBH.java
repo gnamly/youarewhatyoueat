@@ -12,7 +12,7 @@ public class DBH extends SQLiteOpenHelper {
     private static final String LOG_TAG = DBH.class.getSimpleName();
 
     public static final String DB_NAME = "YouAreWhatYouEat.db";
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 7;
 
     private Context context;
 

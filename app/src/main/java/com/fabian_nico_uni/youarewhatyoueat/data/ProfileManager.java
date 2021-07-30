@@ -6,6 +6,7 @@ import android.util.Log;
 import com.fabian_nico_uni.youarewhatyoueat.MainActivity;
 import com.fabian_nico_uni.youarewhatyoueat.R;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,8 @@ public class ProfileManager {
         //Search for Profile
         Log.d(LOG_TAG, "Searching for last profile with id "+lastProfile);
         current = ProfileDBHelper.getById(lastProfile, context);
-        Log.d(LOG_TAG, "Found lastProfile with "+current.nickname);
+        if(current != null) Log.d(LOG_TAG, "Found lastProfile with "+current.nickname);
+        else Log.d(LOG_TAG, "Can't find lastProfile");
         fireCurrentProfileUpdate();
     }
 
@@ -78,7 +80,22 @@ public class ProfileManager {
     }
 
     public void setColor(String color) {
-        ProfileDBHelper.updateField("color", color, current.id);
+        ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_COLOR, color, current.id);
+        loadProfile(current.id);
+    }
+
+    public void removeDrink() {
+        int newDrink = current.drink-1;
+        if(newDrink < 0) newDrink = 0;
+        ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK, newDrink, current.id);
+        ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK_TS, LocalDate.now().toString(), current.id);
+        loadProfile(current.id);
+    }
+
+    public void addDrink() {
+        int newDrink = current.drink+1;
+        ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK, newDrink, current.id);
+        ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK_TS, LocalDate.now().toString(), current.id);
         loadProfile(current.id);
     }
 

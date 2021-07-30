@@ -27,6 +27,8 @@ public class Profile {
     public int color;
     public String icon;
     public boolean male;
+    public int drink;
+    public LocalDate drinkDate = null;
     public int age;
     public int maxDaylie;
 
@@ -36,7 +38,7 @@ public class Profile {
 
     SimpleDateFormat dateFormat;
 
-    public Profile(Context context, long id, String name, String nick, String birthday, int height, String color, String icon, boolean male){
+    public Profile(Context context, long id, String name, String nick, String birthday, int height, String color, String icon, boolean male, int drink, String drinkTS){
         dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
 
         this.ctx = context;
@@ -53,6 +55,24 @@ public class Profile {
         this.color = Color.parseColor(color);
         this.icon = icon;
         this.male = male;
+
+        this.drink = drink;
+        if(drinkTS != null) {
+            try {
+                this.drinkDate = dateFormat.parse(drinkTS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            } catch (ParseException e) {
+                Log.e(LOG_TAG, e.getMessage());
+            }
+        }
+        if(drinkDate != null){
+            LocalDate today = LocalDate.now();
+            if(drinkDate.getYear() != today.getYear() || drinkDate.getMonth() != today.getMonth() || drinkDate.getDayOfMonth() != today.getDayOfMonth()) {
+                this.drink = 0;
+                this.drinkDate = today;
+                ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK, this.drink, this.id);
+                ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK_TS, this.drinkDate.toString(), this.id);
+            }
+        }
 
         this.age = Period.between(this.birthday, LocalDate.now()).getYears();
 

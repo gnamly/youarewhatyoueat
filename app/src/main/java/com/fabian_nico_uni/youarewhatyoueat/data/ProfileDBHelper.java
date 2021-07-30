@@ -22,8 +22,8 @@ public class ProfileDBHelper {
     public static final String COLUMN_COLOR = "color";
     public static final String COLUMN_ICON = "icon";
     public static final String COLUMN_MALE = "male";
-
-    private static String allColumns[] = {COLUMN_ID, COLUMN_NAME, COLUMN_NICKNAME, COLUMN_BIRTHDAY, COLUMN_HEIGHT, COLUMN_COLOR, COLUMN_ICON};
+    public static final String COLUMN_DRINK = "drink";
+    public static final String COLUMN_DRINK_TS = "drink_ts";
 
     public static final String SQL_CREATE =
             "CREATE TABLE " + TABLE_NAME +
@@ -34,7 +34,9 @@ public class ProfileDBHelper {
                     COLUMN_HEIGHT + " INTEGER NOT NULL, " +
                     COLUMN_COLOR + " TEXT NOT NULL, " +
                     COLUMN_ICON + " TEXT NOT NULL," +
-                    COLUMN_MALE + " INTEGER NOT NULL);";
+                    COLUMN_MALE + " INTEGER NOT NULL," +
+                    COLUMN_DRINK + " INTEGER NOT NULL," +
+                    COLUMN_DRINK_TS + " TEXT);";
 
     public static final String SQL_DROP = "DROP TABLE IF EXISTS "+TABLE_NAME;
 
@@ -49,6 +51,7 @@ public class ProfileDBHelper {
         values.put(COLUMN_COLOR, "#f78707");
         values.put(COLUMN_ICON, "ic_launcher_round.png");
         values.put(COLUMN_MALE, male ? 1 : 0);
+        values.put(COLUMN_DRINK, 0);
         long result = DBH.getInstance(context).getWritableDatabase().insert(TABLE_NAME, null, values);
         Log.d(LOG_TAG, "Created Profile with id "+result);
         WeightDBHelper.addWeight(result, weight);
@@ -69,7 +72,9 @@ public class ProfileDBHelper {
             String color = resultSet.getString(5);
             String icon = resultSet.getString(6);
             boolean male = resultSet.getInt(7) == 1;
-            return new Profile(context, _id, username, nickname, birthday, height, color, icon, male);
+            int drink = resultSet.getInt(8);
+            String drinkTS = resultSet.getString(9);
+            return new Profile(context, _id, username, nickname, birthday, height, color, icon, male, drink, drinkTS);
         }
         return null;
     }
@@ -107,12 +112,22 @@ public class ProfileDBHelper {
             String color = resultSet.getString(5);
             String icon = resultSet.getString(6);
             boolean male = resultSet.getInt(7) == 1;
-            return new Profile(context, _id, username, nickname, birthday, height, color, icon, male);
+            int drink = resultSet.getInt(8);
+            String drinkTS = resultSet.getString(9);
+            return new Profile(context, _id, username, nickname, birthday, height, color, icon, male, drink, drinkTS);
         }
         return null;
     }
 
     public static  synchronized boolean updateField(String column, String value, long id) {
+        ContentValues values = new ContentValues();
+        values.put(column, value);
+        int result = DBH.getInstance().getWritableDatabase().update(TABLE_NAME, values, "id = ?", new String[]{Long.toString(id)});
+
+        return result > 0;
+    }
+
+    public static  synchronized boolean updateField(String column, int value, long id) {
         ContentValues values = new ContentValues();
         values.put(column, value);
         int result = DBH.getInstance().getWritableDatabase().update(TABLE_NAME, values, "id = ?", new String[]{Long.toString(id)});
