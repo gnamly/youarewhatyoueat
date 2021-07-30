@@ -19,6 +19,7 @@
     <string name="preference_delete_profile">Profil Löschen</string>
     <string name="preference_select_color">Farbe ändern</string>
     <string name="preference_select_color_text">Farbe wählen</string>
+    <string name="preference_add_weight">Körpergewicht aktualisieren</string>
 
     <string name="home_welcome">Wilkommen</string>
     <string name="home_cals_1">Heute hast du</string>

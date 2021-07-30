@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+/**
+ * Singleton based DataBase connection and helper
+ */
 public class DBH extends SQLiteOpenHelper {
     private static DBH instance;
 
@@ -22,6 +25,9 @@ public class DBH extends SQLiteOpenHelper {
         this.context = context;
     }
 
+    /**
+     * returns the singleton
+     */
     public static DBH getInstance (Context context) {
         if(DBH.instance == null) {
             DBH.instance = new DBH(context.getApplicationContext());
@@ -30,11 +36,17 @@ public class DBH extends SQLiteOpenHelper {
         return DBH.instance;
     }
 
+    /**
+     * returns the singleton only if there is one already
+     */
     public static DBH getInstance() {
         if(DBH.instance == null) return null;
         return DBH.instance;
     }
 
+    /**
+     * Creates all DataBase tables
+     */
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
@@ -50,6 +62,9 @@ public class DBH extends SQLiteOpenHelper {
         }
     }
 
+    /**
+     * On a Version update all tables are regenerated
+     */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         try{
@@ -62,18 +77,6 @@ public class DBH extends SQLiteOpenHelper {
             onCreate(db);
         } catch (Exception e) {
             Log.e(LOG_TAG, "Fehler beim Löschen der Tabellen: " + e.getMessage());
-        }
-    }
-
-    public Cursor executeRawRead(String query){
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor result;
-        try {
-            return db.rawQuery(query, null);
-        } catch (Exception e) {
-            Log.d(LOG_TAG, "Raw execution of reading database has an error");
-            Log.d(LOG_TAG, e.getMessage());
-            return null;
         }
     }
 }

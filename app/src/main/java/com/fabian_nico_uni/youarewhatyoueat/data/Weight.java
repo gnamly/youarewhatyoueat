@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 
+/**
+ * The Weight Model for DataBase table weights
+ */
 public class Weight {
     public static final String LOG_TAG = Weight.class.getSimpleName();
 

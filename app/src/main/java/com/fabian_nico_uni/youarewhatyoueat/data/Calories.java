@@ -8,6 +8,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Locale;
 
+/**
+ * A Model of the DB Table calories
+ */
 public class Calories {
     public static final String LOG_TAG = Calories.class.getSimpleName();
 

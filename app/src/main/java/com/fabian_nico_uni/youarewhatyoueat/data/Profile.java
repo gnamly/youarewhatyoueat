@@ -3,17 +3,18 @@ package com.fabian_nico_uni.youarewhatyoueat.data;
 import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
-import com.fabian_nico_uni.youarewhatyoueat.ui.profile.CreateFragment;
 
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
-import java.util.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * A Model of the DataBase table Profile
+ */
 public class Profile {
     public static final String LOG_TAG = Profile.class.getSimpleName();
 
@@ -30,16 +31,18 @@ public class Profile {
     public int drink;
     public LocalDate drinkDate = null;
     public int age;
-    public int maxDaylie;
+    public int maxDaily;
 
     public List<Weight> weights;
     public List<Calories> calories;
     public int caloriesToday = 0;
 
     SimpleDateFormat dateFormat;
+    SimpleDateFormat dateFormat2;
 
     public Profile(Context context, long id, String name, String nick, String birthday, int height, String color, String icon, boolean male, int drink, String drinkTS){
         dateFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.GERMANY);
+        dateFormat2 = new SimpleDateFormat("yyyy-MM-dd", Locale.GERMANY);
 
         this.ctx = context;
 
@@ -59,11 +62,12 @@ public class Profile {
         this.drink = drink;
         if(drinkTS != null) {
             try {
-                this.drinkDate = dateFormat.parse(drinkTS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                this.drinkDate = dateFormat2.parse(drinkTS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             } catch (ParseException e) {
                 Log.e(LOG_TAG, e.getMessage());
             }
         }
+        //Check if drinks are from this day and reset if not
         if(drinkDate != null){
             LocalDate today = LocalDate.now();
             if(drinkDate.getYear() != today.getYear() || drinkDate.getMonth() != today.getMonth() || drinkDate.getDayOfMonth() != today.getDayOfMonth()) {
@@ -74,22 +78,28 @@ public class Profile {
             }
         }
 
+        //calculate the age based on birthday
         this.age = Period.between(this.birthday, LocalDate.now()).getYears();
 
-        if(age < 19) maxDaylie = male ? 2500 : 2000;
-        else if (age < 25) maxDaylie = male ? 2500 : 1900;
-        else if (age < 51) maxDaylie = male ? 2400 : 1900;
-        else if (age < 65) maxDaylie = male ? 2200 : 1800;
-        else maxDaylie = male ? 2000 : 1600;
+        //using https://www.tk.de/techniker/magazin/ernaehrung/uebergewicht-und-diaet/wie-viele-kalorien-pro-tag-2006758
+        //as table for the daily used calories for each age group
+        if(age < 19) maxDaily = male ? 2500 : 2000;
+        else if (age < 25) maxDaily = male ? 2500 : 1900;
+        else if (age < 51) maxDaily = male ? 2400 : 1900;
+        else if (age < 65) maxDaily = male ? 2200 : 1800;
+        else maxDaily = male ? 2000 : 1600;
 
+        //get all Weight Models for this profile
         weights = WeightDBHelper.findAllForProfile(context, this.id);
 
+        //get all calory models for this profile
         calories = CaloriesDBHelper.findAllForProfile(this.id);
         for(Calories cal : calories){
             caloriesToday += cal.calories;
         }
     }
 
+    //conversion to SimpleProfile
     public SimpleProfile getSimple(){
         return new SimpleProfile(this.ctx, this.id, this.name, this.nickname);
     }

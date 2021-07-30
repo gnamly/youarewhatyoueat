@@ -38,12 +38,13 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
         final EditText weightInput = root.findViewById(R.id.create_profile_input_weight);
         genderSpinner = root.findViewById(R.id.create_profile_input_gender);
 
+        //Setup the spinner for the gender
         genderSpinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
-        String[] gender = {"Männlich", "Weiblich"};
         ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(getContext(), R.array.genders, android.R.layout.simple_spinner_item);
         genderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         genderSpinner.setAdapter(genderAdapter);
 
+        //the button for submitting the create form
         View.OnClickListener onButtonClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,6 +64,7 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
         return root;
     }
 
+    //Gender select Spinner is used
     @Override
     public void onItemSelected(AdapterView<?> parent, View arg1, int position, long id) {
         Log.d(LOG_TAG, "spinner selected "+parent.getItemAtPosition(position));

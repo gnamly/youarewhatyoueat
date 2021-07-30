@@ -28,6 +28,9 @@ public class WeightDBHelper {
 
     public static final String SQL_DROP = "DROP TABLE IF EXISTS "+TABLE_NAME;
 
+    /**
+     * Gets all weights for a profile
+     */
     public static synchronized List<Weight> findAllForProfile(Context context, long profileID){
         Log.d(LOG_TAG, "Finding all weights for profile "+profileID);
         Cursor resultSet = DBH.getInstance(context).getReadableDatabase().query(TABLE_NAME, null, COLUMN_ID_PROFILE+" = ?", new String[]{Long.toString(profileID)}, null, null, COLUMN_ID+" DESC", null);
@@ -47,6 +50,9 @@ public class WeightDBHelper {
         return new ArrayList<Weight>();
     }
 
+    /**
+     * Add a weight to a profile
+     */
     public static synchronized long addWeight(long profileID, int weight){
         ContentValues values = new ContentValues();
         values.put(COLUMN_ID_PROFILE, profileID);

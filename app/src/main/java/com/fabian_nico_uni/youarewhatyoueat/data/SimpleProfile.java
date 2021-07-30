@@ -2,6 +2,9 @@ package com.fabian_nico_uni.youarewhatyoueat.data;
 
 import android.content.Context;
 
+/**
+ * A Profile Model but with less attributes
+ */
 public class SimpleProfile {
     public static final String LOG_TAG = SimpleProfile.class.getSimpleName();
 

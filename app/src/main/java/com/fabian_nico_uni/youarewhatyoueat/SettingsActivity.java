@@ -11,10 +11,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.widget.Toast;
 import com.fabian_nico_uni.youarewhatyoueat.data.ProfileManager;
+import com.fabian_nico_uni.youarewhatyoueat.ui.settings.AddWeightDialog;
 import com.fabian_nico_uni.youarewhatyoueat.ui.settings.SelectColorDialog;
 import com.fabian_nico_uni.youarewhatyoueat.ui.settings.SettingsFragment;
 
-public class SettingsActivity extends AppCompatActivity implements SelectColorDialog.SelectColorDialogListener {
+public class SettingsActivity extends AppCompatActivity implements SelectColorDialog.SelectColorDialogListener, AddWeightDialog.AddWeightDialogListener {
     public static final String LOG_TAG = SettingsActivity.class.getSimpleName();
 
     @Override
@@ -44,5 +45,10 @@ public class SettingsActivity extends AppCompatActivity implements SelectColorDi
     @Override
     public void applyColor(String color) {
         ProfileManager.getInstance(this).setColor(color);
+    }
+
+    @Override
+    public void applyWeight(int weight) {
+        ProfileManager.getInstance(this).addWeight(weight);
     }
 }

@@ -17,6 +17,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
+        //Setup delete button with a warning dialog
         Preference deletePref = (Preference) findPreference("delete_profile");
         deletePref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
@@ -44,6 +45,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
         });
 
+        //color button with dialog and spinner with predefined colors
         Preference colorPref = (Preference) findPreference("select_color");
         colorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
@@ -53,10 +55,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
+
+        //add weight button
+        Preference weightPref = (Preference) findPreference("add_weight");
+        weightPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                OpenWeightDialog();
+                return true;
+            }
+        });
     }
 
     void OpenDialog() {
         SelectColorDialog dialog = new SelectColorDialog();
         dialog.show(getChildFragmentManager(), "select color dialog");
+    }
+
+    void OpenWeightDialog() {
+        AddWeightDialog dialog = new AddWeightDialog();
+        dialog.show(getChildFragmentManager(), "add weight dialog");
     }
 }

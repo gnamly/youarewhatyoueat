@@ -7,6 +7,10 @@
         app:title="@string/preference_select_color">
     </Preference>
     <Preference
+            app:key="add_weight"
+            app:title="@string/preference_add_weight">
+    </Preference>
+    <Preference
         app:key="delete_profile"
         app:title="@string/preference_delete_profile"/>
 </PreferenceScreen>

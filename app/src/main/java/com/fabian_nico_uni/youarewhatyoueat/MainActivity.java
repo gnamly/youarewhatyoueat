@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         profileSubheaderNavView = navHeaderView.findViewById(R.id.nav_profile_subheader);
         profileImageNavView = navHeaderView.findViewById(R.id.nav_profile_image);
 
+        //Setup profile spinner in the nav menu with all simple profile models
         spinner = navHeaderView.findViewById(R.id.nav_profile_header_spinner);
         profileList = ProfileManager.getInstance(this).getAllSimple();
 
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
             }
         });
 
+        //register for profilemanager's update event
         profileManager.addCurrentProfileUpdateListener(this);
         onProfileUpdated(profileManager.getCurrent(), false);
     }
@@ -125,12 +127,14 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
 
     @Override
     public void onProfileUpdated(Profile current, boolean newProfile) {
+        //if there is no profile the user must create a new one
         if(current == null) {
             Log.w(LOG_TAG, "Profile was updated, main activity has received a null object");
             startActivity(new Intent(this, CreateProfileActivity.class));
             return;
         }
         Log.d(LOG_TAG, "Profile was updated, main activity has new profile info.");
+        //safe the current profile for persistend loading
         SharedPreferences sharedPref = getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putLong(getString(R.string.pref_last_profile_key), current.id);
@@ -152,6 +156,9 @@ public class MainActivity extends AppCompatActivity implements CurrentProfileUpd
         onSelectedProfile(profile);
     }
 
+    /**
+     * updates the spinner with new profiles and sets to the current profile
+     */
     private void setupSpinner() {
         adapter.notifyDataSetChanged();
         SimpleProfile currentSimple = profileList.get(0);

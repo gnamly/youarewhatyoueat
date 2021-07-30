@@ -48,6 +48,7 @@ public class OverviewFragment extends Fragment implements CurrentProfileUpdateEv
 
     @Override
     public void onProfileUpdated(Profile current, boolean newProfile) {
+        //update the charts using com.github.mikephil.charting charts
         if(current == null) return;
         LocalDateTime today = LocalDateTime.now();
 

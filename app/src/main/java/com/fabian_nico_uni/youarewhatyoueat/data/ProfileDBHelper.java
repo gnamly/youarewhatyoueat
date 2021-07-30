@@ -42,6 +42,9 @@ public class ProfileDBHelper {
 
     private static Lock dblock;
 
+    /**
+     * Create a new Profile into the DB
+     */
     public static synchronized long createProfile(Context context, String name, String nick, String birth, int height, int weight, boolean male) {
         ContentValues values = new ContentValues();
         values.put(COLUMN_NAME, name);
@@ -58,6 +61,10 @@ public class ProfileDBHelper {
         return result;
     }
 
+    /**
+     * Query the profile table with a specific ID
+     * @param id the searched profile id
+     */
     public static synchronized Profile getById(long id, Context context) {
         Log.d(LOG_TAG, "Get By ID with id: "+id);
         Cursor resultSet = DBH.getInstance(context).getReadableDatabase().query(TABLE_NAME, null, "id = ?", new String[]{Long.toString(id)}, null, null, null, null);
@@ -79,6 +86,9 @@ public class ProfileDBHelper {
         return null;
     }
 
+    /**
+     * Gets all profiles and return them in simple form
+     */
     public static synchronized List<SimpleProfile> getAll(Context context) {
         Cursor resultSet = DBH.getInstance().getReadableDatabase().query(TABLE_NAME, new String[]{COLUMN_ID, COLUMN_NAME, COLUMN_NICKNAME}, null, null, null, null, null, null);
         List<SimpleProfile> result = new ArrayList<>();
@@ -95,11 +105,17 @@ public class ProfileDBHelper {
         return result;
     }
 
+    /**
+     * Deletes a profile based on the id
+     */
     public static synchronized boolean deleteProfile(long id) {
         int result = DBH.getInstance().getWritableDatabase().delete(TABLE_NAME, "id = ?", new String[] {Long.toString(id)});
         return result > 0;
     }
 
+    /**
+     * Get the last profile that can be found based on biggest id
+     */
     public static synchronized Profile getLast(Context context) {
         Cursor resultSet = DBH.getInstance(context).getReadableDatabase().query(TABLE_NAME, null, null, null, null, null, COLUMN_ID+" DESC", "1");
         if(resultSet.getCount() > 0) {
@@ -119,6 +135,12 @@ public class ProfileDBHelper {
         return null;
     }
 
+    /**
+     * Update a field with a String value
+     * @param column the Column name
+     * @param value the String value
+     * @param id the profile id
+     */
     public static  synchronized boolean updateField(String column, String value, long id) {
         ContentValues values = new ContentValues();
         values.put(column, value);
@@ -127,6 +149,12 @@ public class ProfileDBHelper {
         return result > 0;
     }
 
+    /**
+     * Update a field with a Integer value
+     * @param column the Column name
+     * @param value the Integer value
+     * @param id the profile id
+     */
     public static  synchronized boolean updateField(String column, int value, long id) {
         ContentValues values = new ContentValues();
         values.put(column, value);

@@ -35,6 +35,9 @@ public class ProfileManager {
         fireCurrentProfileUpdate();
     }
 
+    /**
+     * returns the singleton
+     */
     public static ProfileManager getInstance(Context context) {
         if(instance == null) {
             instance = new ProfileManager(context);
@@ -47,10 +50,18 @@ public class ProfileManager {
         return current;
     }
 
+    /**
+     * Registers a listener to the list
+     */
     public void addCurrentProfileUpdateListener(CurrentProfileUpdateEvent listener){
         currentUpdateListeners.add(listener);
     }
 
+    /**
+     * Safe a new profile into the DB and set it as current
+     * @param weight A initial weight
+     * @return returns success
+     */
     public boolean createProfile(String name, String nick, String birth, int height, int weight, boolean male){
         long id = ProfileDBHelper.createProfile(ctx, name, nick, birth, height, weight, male);
         if(id == -1) return false;
@@ -59,31 +70,51 @@ public class ProfileManager {
         return true;
     }
 
+    /**
+     * Loads the current profile from the DB
+     */
     public void refreshCurrent() {
         current = ProfileDBHelper.getById(current.id, ctx);
         fireCurrentProfileUpdate();
     }
 
+    /**
+     * Removes a profile from the DB
+     */
     public void deleteCurrent() {
         ProfileDBHelper.deleteProfile(current.id);
         current = ProfileDBHelper.getLast(ctx);
         fireCurrentProfileUpdate();
     }
 
+    /**
+     * A List of all profiles in a simple form without extra infos
+     */
     public List<SimpleProfile> getAllSimple(){
         return ProfileDBHelper.getAll(ctx);
     }
 
+    /**
+     * loads a specific profile as the current one
+     * @param id
+     */
     public void loadProfile(long id) {
         current = ProfileDBHelper.getById(id, ctx);
         fireCurrentProfileUpdate();
     }
 
+    /**
+     * Sets the color for a profile
+     * @param color as rgb hex value
+     */
     public void setColor(String color) {
         ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_COLOR, color, current.id);
         loadProfile(current.id);
     }
 
+    /**
+     * Subtract 1 from the drinks limited to 0
+     */
     public void removeDrink() {
         int newDrink = current.drink-1;
         if(newDrink < 0) newDrink = 0;
@@ -92,6 +123,9 @@ public class ProfileManager {
         loadProfile(current.id);
     }
 
+    /**
+     * Add 1 to the drinks
+     */
     public void addDrink() {
         int newDrink = current.drink+1;
         ProfileDBHelper.updateField(ProfileDBHelper.COLUMN_DRINK, newDrink, current.id);
@@ -99,10 +133,22 @@ public class ProfileManager {
         loadProfile(current.id);
     }
 
+    public void addWeight(int weight) {
+        WeightDBHelper.addWeight(current.id, weight);
+        loadProfile(current.id);
+    }
+
+    /**
+     * Overload of the fire Event with auto newProfile value
+     */
     private void fireCurrentProfileUpdate() {
         fireCurrentProfileUpdate(false);
     }
 
+    /**
+     * calls the onProfileUpdated interface on all registered listeners
+     * @param newProfile
+     */
     private void fireCurrentProfileUpdate(boolean newProfile){
         for(CurrentProfileUpdateEvent listener : currentUpdateListeners){
             listener.onProfileUpdated(current, newProfile);
