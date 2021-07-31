@@ -4,22 +4,28 @@
 
 ## About the APP
 
+Die App wurde im Rahmen einer Projektarbeit für das Modul Entwicklung mobiler Anwendungen <br>
+an der Hochschule Worms von Nico Mai und Fabian Weinhold entwickelt.
+
+Die Grundidee bestand darin einen einfach zu bedienenden Kalorien tracker zu implementieren.<br>
+Zu der Grundidee kamen Features wie Wasser tracken, Graphen/Statistiken, User Profile, etc.<br>
+<br>
+
 Mit YAWYE ist es möglich seine Kalorien jederzeit zu tracken.<br>
 Man kann verschiedene Benutzerprofile anlegen, sodass die ganze Familie/Freunde mit einem Telefon getrackt werden können.<br>
-Nach Eingabe von Größe & Gewicht berechnet die App die empfohlene Tagesdosis. (Aus Basis von https://www.tk.de/techniker/magazin/ernaehrung/uebergewicht-und-diaet/wie-viele-kalorien-pro-tag-2006758 )<br>
-Dabei werden die gespeicherten Daten nur lokal auf dem Telefon gespeicher, dass man keine Angst vor Datenmissbrauch haben muss. <br>
-Die App wurde in Java geschrieben und nutzt eien SQLite Datenbak. <br>
+Nach Eingabe von Größe & Gewicht berechnet die App den empfohlenen Tagesbedarf. (Aus Basis von https://www.tk.de/techniker/magazin/ernaehrung/uebergewicht-und-diaet/wie-viele-kalorien-pro-tag-2006758 )<br>
+Dabei werden die gespeicherten Daten nur lokal auf dem Telefon gespeichert. <br>
 
 
 ## Funktionalität
 
 - Benutzerprofile anlegen/löschen<br>
 - Zwischen Benutzerprofilen wechseln<br>
+- Farbe von Profilen ändern<br>
 - Kalorien manuell eintragen<br>
 - Graphen zu Kalorien anzeigen<br>
 - Wassermenge eingeben <br> 
-- Kalorien über Rezepte/Mahlzeiten eintragen (tbd) <br>
-
+- Kalorien über Rezepte/Mahlzeiten eintragen (tbd.) <br>
 
 ## Running the APP
 
@@ -28,6 +34,11 @@ Die App wurde in Java geschrieben und nutzt eien SQLite Datenbak. <br>
 - Run the App (Simulator - tested with Nexus 5X)
 
 ## Doku
+
+## Technisch
+
+Die App nutzt eine SQLite Datenbank.<br>
+Für die Programmiersprache entschieden wir uns für Java.<br>
 
 ### Mockup
 
