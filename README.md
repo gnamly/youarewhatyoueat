@@ -10,6 +10,7 @@ an der Hochschule Worms von Nico Mai und Fabian Weinhold entwickelt.
 Die Grundidee bestand darin einen einfach zu bedienenden Kalorien tracker zu implementieren.<br>
 Zu der Grundidee kamen Features wie Wasser tracken, Graphen/Statistiken, User Profile, etc.<br>
 <br>
+Die aktuelle Version ist die 1.4 (https://github.com/gnamly/youarewhatyoueat/blob/master/YouAreWhatYouEat-1_4.apk)<br>
 
 Mit YAWYE ist es möglich seine Kalorien jederzeit zu tracken.<br>
 Man kann verschiedene Benutzerprofile anlegen, sodass die ganze Familie/Freunde mit einem Telefon getrackt werden können.<br>
@@ -26,12 +27,14 @@ Dabei werden die gespeicherten Daten nur lokal auf dem Telefon gespeichert. <br>
 - Graphen zu Kalorien anzeigen<br>
 - Wassermenge eingeben <br> 
 - Kalorien über Rezepte/Mahlzeiten eintragen (tbd.) <br>
+- News Seite mit nützlichen Informationen (tbd.)
+- Übersicht (Tag/Woche/Monat) (tbd.)
 
 ## Running the APP
 
 - Clone the Project to your PC and open it in Android Studio
 - Build the Project
-- Run the App (Simulator - tested with Nexus 5X)
+- Run the App (Simulator - tested with Nexus 5X, Pixel 3A, Samsung Galaxy S10)
 
 ## Doku
 
