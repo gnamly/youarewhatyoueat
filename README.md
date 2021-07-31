@@ -40,6 +40,17 @@ Dabei werden die gespeicherten Daten nur lokal auf dem Telefon gespeichert. <br>
 Die App nutzt eine SQLite Datenbank.<br>
 Für die Programmiersprache entschieden wir uns für Java.<br>
 
+Die App nutzt Java 8, eine min SDK von  26 und eine Ziel SDK von 30  
+Als externe Liberary nutzen wir noch https://github.com/PhilJay/MPAndroidChart für Graphen
+
+Die App nutzt verschiedene Activities mit eingebundenen Fragments, dabei werden Menü Punkte in einzelnen Abschnitten erstellt.  
+Die Kommunikation mit der Datenspeicherung in der Dantenbank funktioniert durch Database Helper klassen, welche teilweise als Singleton behandelt werden.
+
+Die Datenbank struktur ist dem Entity Relation Diagramm zu entnehmen.
+
+### Datenbank Modell
+![grafik](https://user-images.githubusercontent.com/8366374/127735189-04171e41-1506-4b32-a476-8fc3eac03b08.png)
+
 ### Mockup
 
 ![YAWYE_mockup](https://user-images.githubusercontent.com/82155099/127733473-eb1b7761-096b-4670-b7a4-5d2039f4c4f7.PNG)
