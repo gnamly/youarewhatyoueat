@@ -92,7 +92,7 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
                 }
                 Log.d(LOG_TAG, "Creating Profile with name: "+name+" nick: "+nick+" age: "+age+" height: "+height+" male? "+male);
                 boolean result = ProfileManager.getInstance(getContext()).createProfile(name, nick, age, height, weight, male);
-                Toast toast = Toast.makeText(getContext(), "Profile created with "+result, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getContext(), "Neues Profil angelegt", Toast.LENGTH_SHORT);
                 toast.show();
                 getActivity().onBackPressed();
             }
