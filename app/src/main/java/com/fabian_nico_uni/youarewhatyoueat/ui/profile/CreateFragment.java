@@ -26,7 +26,7 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
     private CreateViewModel createViewModel;
 
     Spinner genderSpinner;
-    boolean male;
+    boolean male = true;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -81,10 +81,19 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
                 String name = nameInput.getText().toString();
                 String nick = nickInput.getText().toString();
                 String age = ageInput.getText().toString();
-                int height = Integer.parseInt(heightInput.getText().toString());
-                int weight = Integer.parseInt(weightInput.getText().toString());
+                int height = 0;
+                if(!heightInput.getText().toString().equals("")) height = Integer.parseInt(heightInput.getText().toString());
+                int weight = 0;
+                if(!weightInput.getText().toString().equals("")) weight = Integer.parseInt(weightInput.getText().toString());
+                if(height == 0 || weight == 0 || age.equals("") || name.equals("") || nick.equals("")){
+                    Toast toast = Toast.makeText(getContext(), "Alle Felder müssen ausgefüllt werden", Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
+                }
+                Log.d(LOG_TAG, "Creating Profile with name: "+name+" nick: "+nick+" age: "+age+" height: "+height+" male? "+male);
                 boolean result = ProfileManager.getInstance(getContext()).createProfile(name, nick, age, height, weight, male);
-                Toast toas = Toast.makeText(getContext(), "Profile created with "+result, Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(getContext(), "Profile created with "+result, Toast.LENGTH_LONG);
+                toast.show();
                 getActivity().onBackPressed();
             }
         };
@@ -97,9 +106,8 @@ public class CreateFragment extends Fragment implements AdapterView.OnItemSelect
     //Gender select Spinner is used
     @Override
     public void onItemSelected(AdapterView<?> parent, View arg1, int position, long id) {
-        Log.d(LOG_TAG, "spinner selected "+parent.getItemAtPosition(position));
-        male = parent.getItemAtPosition(position) == "Männlich";
-        genderSpinner.clearFocus();
+        male = ((String) parent.getItemAtPosition(position)).equals("Männlich");
+        Log.d(LOG_TAG, "spinner selected "+parent.getItemAtPosition(position)+" set male to "+male);
     }
 
     @Override
