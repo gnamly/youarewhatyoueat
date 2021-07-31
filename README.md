@@ -45,5 +45,8 @@ Die App wurde in Java geschrieben und nutzt eien SQLite Datenbak. <br>
 
 [YAWYE_Vorstellung.pptx](https://github.com/gnamly/youarewhatyoueat/files/6910874/YAWYE_Vorstellung.pptx)
 
+### User Stories
+
+[App User Stories.docx](https://github.com/gnamly/youarewhatyoueat/files/6910876/App.User.Stories.docx)
 
 
